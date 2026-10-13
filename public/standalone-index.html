@@ -28,9 +28,10 @@
       </div>
 
       <div class="flex items-center gap-2">
-        <button onclick="openPadletModal()" class="px-3 py-2 text-xs sm:text-sm font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-xl border border-purple-200 transition-colors">
-          📌 패들렛 연동
-        </button>
+        <a href="https://padlet.com/inho5720/1107-s0249w45i0bvi633ce5l" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 text-xs sm:text-sm font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-xl border border-purple-200 transition-colors flex items-center gap-1.5 shadow-xs">
+          <span>🎨</span>
+          <span>작품 전시장</span>
+        </a>
         <button onclick="copyCurrentPrompt()" class="px-3.5 py-2 text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 rounded-xl transition-all shadow-sm">
           📋 프롬프트 복사
         </button>
@@ -314,8 +315,8 @@
           <button onclick="goToStep(1)" class="px-5 py-3 rounded-2xl bg-purple-50 text-purple-700 font-bold text-sm">
             🔄 새로 만들기
           </button>
-          <a id="padletDirectBtn" href="https://padlet.com" target="_blank" class="px-6 py-3 rounded-2xl bg-emerald-500 text-white font-bold text-sm flex items-center gap-1.5 shadow">
-            <span>📌 패들렛 바로가기</span>
+          <a id="padletDirectBtn" href="https://padlet.com/inho5720/1107-s0249w45i0bvi633ce5l" target="_blank" class="px-6 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm flex items-center gap-1.5 shadow">
+            <span>🎨 작품 전시장 바로가기</span>
           </a>
         </div>
       </div>
@@ -329,14 +330,14 @@
         🎉
       </div>
       <h3 class="text-2xl font-black text-slate-900 mb-2">
-        복사 완료! 이제 패들렛으로 이동하세요!
+        복사 완료! 이제 작품 전시장으로 이동하세요!
       </h3>
       <p class="text-sm text-slate-600 mb-6">
-        프롬프트가 복사되었습니다. Gemini에 붙여넣어 웹앱을 만든 뒤 패들렛에 공유해보세요!
+        프롬프트가 복사되었습니다. Gemini에 붙여넣어 웹앱을 만든 뒤 작품 전시장(패들렛)에 멋진 작품을 공유해보세요!
       </p>
       <div class="space-y-2">
-        <a id="modalPadletBtn" href="https://padlet.com" target="_blank" onclick="closeCelebrationModal()" class="w-full py-3.5 bg-emerald-500 text-white font-extrabold rounded-2xl block">
-          📌 패들렛으로 이동하기
+        <a id="modalPadletBtn" href="https://padlet.com/inho5720/1107-s0249w45i0bvi633ce5l" target="_blank" onclick="closeCelebrationModal()" class="w-full py-3.5 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold rounded-2xl block">
+          🎨 작품 전시장으로 바로 이동하기
         </a>
         <a href="https://gemini.google.com" target="_blank" onclick="closeCelebrationModal()" class="w-full py-3 bg-purple-50 text-purple-700 font-bold rounded-2xl block border border-purple-200">
           🤖 Gemini 열기 (gemini.google.com)
@@ -348,11 +349,12 @@
 
   <script>
     let currentTemplate = 'snake';
-    let padletUrl = localStorage.getItem('vibe_coding_padlet_url') || 'https://padlet.com';
+    const EXHIBITION_URL = 'https://padlet.com/inho5720/1107-s0249w45i0bvi633ce5l';
+    let padletUrl = EXHIBITION_URL;
 
     function updatePadletLinks() {
-      document.getElementById('modalPadletBtn').href = padletUrl;
-      document.getElementById('padletDirectBtn').href = padletUrl;
+      document.getElementById('modalPadletBtn').href = EXHIBITION_URL;
+      document.getElementById('padletDirectBtn').href = EXHIBITION_URL;
     }
     updatePadletLinks();
 

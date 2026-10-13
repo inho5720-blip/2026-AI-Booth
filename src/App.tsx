@@ -1391,8 +1391,9 @@ export default function App() {
     return init;
   });
 
-  // Festival Padlet URL
-  const [padletUrl, setPadletUrl] = useState<string>('https://padlet.com');
+  // Festival Showcase Padlet URL
+  const DEFAULT_EXHIBITION_URL = 'https://padlet.com/inho5720/1107-s0249w45i0bvi633ce5l';
+  const [padletUrl, setPadletUrl] = useState<string>(DEFAULT_EXHIBITION_URL);
   const [showPadletConfig, setShowPadletConfig] = useState<boolean>(false);
 
   // Copy state & modals
@@ -1400,11 +1401,14 @@ export default function App() {
   const [showCelebrationModal, setShowCelebrationModal] = useState<boolean>(false);
   const [showGuideModal, setShowGuideModal] = useState<boolean>(false);
 
-  // Load Padlet URL from localStorage if available
+  // Load Padlet URL from localStorage if available (override old generic url)
   useEffect(() => {
     const saved = localStorage.getItem('vibe_coding_padlet_url');
-    if (saved) {
+    if (saved && saved !== 'https://padlet.com') {
       setPadletUrl(saved);
+    } else {
+      setPadletUrl(DEFAULT_EXHIBITION_URL);
+      localStorage.setItem('vibe_coding_padlet_url', DEFAULT_EXHIBITION_URL);
     }
   }, []);
 
@@ -1516,12 +1520,12 @@ export default function App() {
         <span>📋 프롬프트 복사하기</span>
       </button>
       <a href="${padletUrl}" target="_blank" rel="noopener noreferrer" class="py-4 px-6 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-2xl shadow flex items-center justify-center gap-2 text-base text-center">
-        <span>📌 패들렛 바로가기</span>
+        <span>🎨 작품 전시장 바로가기</span>
       </a>
     </div>
 
     <div id="toast" class="hidden mt-4 p-4 bg-emerald-100 border border-emerald-300 text-emerald-800 rounded-2xl text-center font-bold">
-      🎉 복사 완료! 이제 Gemini에 붙여넣거나 패들렛으로 이동하세요!
+      🎉 복사 완료! 이제 Gemini에 붙여넣거나 작품 전시장(패들렛)으로 이동하세요!
     </div>
   </div>
 
@@ -1601,15 +1605,17 @@ export default function App() {
 
           {/* Zone 3: Primary Action */}
           <div className="flex items-center gap-2 shrink-0">
-            <button
-              onClick={() => setShowPadletConfig(true)}
-              className="px-3 py-2 text-xs sm:text-sm font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-xl transition-colors whitespace-nowrap flex items-center gap-1.5 border border-purple-200 cursor-pointer"
-              title="축제 패들렛 주소 설정"
+            <a
+              href={padletUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3.5 py-2 text-xs sm:text-sm font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-xl transition-colors whitespace-nowrap flex items-center gap-1.5 border border-purple-200 cursor-pointer shadow-xs"
+              title="작품 전시장 바로가기"
             >
-              <Share2 className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">패들렛 연동</span>
-              <span className="sm:hidden">패들렛</span>
-            </button>
+              <span>🎨</span>
+              <span>작품 전시장</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
             <button
               onClick={handleDownloadStandaloneHTML}
               className="px-3.5 py-2 text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 rounded-xl transition-all shadow-sm hover:shadow flex items-center gap-1.5 whitespace-nowrap cursor-pointer"
@@ -2231,7 +2237,7 @@ export default function App() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 hover:text-emerald-800 underline mt-2"
                   >
-                    <span>축제 패들렛 열기</span>
+                    <span>작품 전시장 열기</span>
                     <ExternalLink className="w-3 h-3" />
                   </a>
                 </div>
@@ -2265,7 +2271,7 @@ export default function App() {
                   rel="noopener noreferrer"
                   className="px-6 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm transition-colors flex items-center gap-2 shadow-xs cursor-pointer"
                 >
-                  <span>📌 패들렛으로 바로 가기</span>
+                  <span>🎨 작품 전시장 바로가기</span>
                   <ExternalLink className="w-4 h-4" />
                 </a>
               </div>
@@ -2316,12 +2322,12 @@ export default function App() {
             </div>
 
             <h3 className="text-xl sm:text-2xl font-black text-slate-900 mb-2">
-              복사 완료! 이제 패들렛으로 이동하세요!
+              복사 완료! 이제 작품 전시장으로 이동하세요!
             </h3>
 
             <p className="text-sm text-slate-600 leading-relaxed mb-6">
               <strong className="text-purple-700">[{currentTemplate.title}]</strong> 프롬프트가 클립보드에 안전하게 복사되었습니다.<br />
-              <strong className="text-purple-700">Gemini</strong>에서 웹앱 코드를 만들고 축제 <strong className="text-emerald-700">패들렛 게시판</strong>에 작품을 자랑해보세요!
+              <strong className="text-purple-700">Gemini</strong>에서 웹앱 코드를 만들고 <strong className="text-emerald-700">작품 전시장</strong>에 멋진 작품을 자랑해보세요!
             </p>
 
             <div className="space-y-2.5">
@@ -2332,7 +2338,7 @@ export default function App() {
                 onClick={() => setShowCelebrationModal(false)}
                 className="w-full py-3.5 px-4 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold rounded-2xl shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer text-base"
               >
-                <span>📌 패들렛으로 바로 이동하기</span>
+                <span>🎨 작품 전시장으로 바로 이동하기</span>
                 <ExternalLink className="w-4 h-4" />
               </a>
 
