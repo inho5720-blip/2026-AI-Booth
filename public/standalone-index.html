@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>과학축제 바이브 코딩 프롬프트 자동 생성기</title>
+  <meta name="description" content="과학 축제 참가자들을 위한 초간단 웹앱 프롬프트 자동 생성기. 템플릿과 설정을 선택하면 Gemini AI가 바로 실행 가능한 코드로 변환해줍니다.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+  </style>
+</head>
+<body class="bg-[#FAF5FF] text-slate-900 antialiased min-h-screen flex flex-col selection:bg-purple-200 selection:text-purple-900">
+
+  <!-- 1. Header -->
+  <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-purple-100 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5 shrink-0">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-400 via-purple-500 to-emerald-400 flex items-center justify-center text-white shadow-sm font-black text-xl">
+          ⚡
+        </div>
+        <span class="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900">
+          과학축제 <span class="text-purple-600">바이브 코딩</span>
+        </span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button onclick="openPadletModal()" class="px-3 py-2 text-xs sm:text-sm font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-xl border border-purple-200 transition-colors">
+          📌 패들렛 연동
+        </button>
+        <button onclick="copyCurrentPrompt()" class="px-3.5 py-2 text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 rounded-xl transition-all shadow-sm">
+          📋 프롬프트 복사
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. Hero & Step Progress -->
+  <section class="bg-gradient-to-b from-purple-100/60 via-amber-50/40 to-transparent pt-6 pb-4 px-4 sm:px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-3">
+        <span class="inline-block px-3.5 py-1 bg-amber-200/80 border border-amber-300 text-amber-900 rounded-full text-xs sm:text-sm font-bold">
+          🎪 2026 과학축제 소프트웨어 체험 부스 · 말 한마디로 만드는 나만의 웹앱
+        </span>
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-black text-center text-slate-900 tracking-tight mb-2">
+        웹앱 프롬프트 <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500">자동 생성기</span>
+      </h1>
+      <p class="text-center text-slate-600 text-sm sm:text-base max-w-xl mx-auto mb-6">
+        원하는 웹앱을 고르고 이모지와 설정을 넣으면, Gemini AI가 바로 실행 가능한 코드로 만들어주는 맞춤형 프롬프트가 완성됩니다!
+      </p>
+
+      <!-- Stepper Progress Bar -->
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-purple-100">
+        <div class="flex items-center justify-between">
+          <button onclick="goToStep(1)" id="stepTab1" class="flex items-center gap-2 text-purple-700 font-bold text-sm">
+            <span id="badgeStep1" class="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-extrabold shadow ring-4 ring-purple-200">1</span>
+            <span class="hidden sm:inline">1. 템플릿 선택</span>
+          </button>
+          <div class="flex-1 mx-3 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+            <div id="progBar1" class="h-full bg-gradient-to-r from-purple-500 to-amber-400 w-0 transition-all duration-300"></div>
+          </div>
+          <button onclick="goToStep(2)" id="stepTab2" class="flex items-center gap-2 text-slate-400 font-bold text-sm">
+            <span id="badgeStep2" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-extrabold">2</span>
+            <span class="hidden sm:inline">2. 세부 설정</span>
+          </button>
+          <div class="flex-1 mx-3 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+            <div id="progBar2" class="h-full bg-gradient-to-r from-amber-400 to-emerald-500 w-0 transition-all duration-300"></div>
+          </div>
+          <button onclick="goToStep(3)" id="stepTab3" class="flex items-center gap-2 text-slate-400 font-bold text-sm">
+            <span id="badgeStep3" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-extrabold">3</span>
+            <span class="hidden sm:inline">3. 프롬프트 출력</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Main Container -->
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-6">
+    
+    <!-- STEP 1: Templates -->
+    <div id="viewStep1" class="space-y-6">
+      <div class="border-b border-purple-100 pb-3 flex justify-between items-center">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-slate-900">어떤 웹앱을 만들어볼까요? 💡</h2>
+          <p class="text-sm text-slate-500 mt-0.5">아래 4가지 템플릿 중 하나를 클릭하세요.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+        <!-- Template 1 -->
+        <div onclick="selectTemplate('snake')" class="p-6 rounded-3xl bg-white border-2 border-emerald-300 hover:border-emerald-500 shadow-sm hover:shadow-md cursor-pointer transition-all transform hover:-translate-y-1">
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-xs font-black px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800">인기 1위</span>
+          </div>
+          <div class="flex items-start gap-3.5 mb-3">
+            <div class="text-4xl p-2.5 bg-slate-50 rounded-2xl border border-slate-100 shrink-0">🐍</div>
+            <div>
+              <h3 class="text-xl font-black text-slate-900">스네이크 게임</h3>
+              <p class="text-xs font-semibold text-slate-500 mt-0.5">뱀이 밥을 먹으며 길어지는 클래식 게임</p>
+            </div>
+          </div>
+          <p class="text-sm text-slate-600 mb-4">방향키로 움직이며 먹이를 먹을 때마다 몸이 길어지는 재미있는 아케이드 게임입니다.</p>
+          <div class="text-right text-sm font-bold text-emerald-600">선택하기 →</div>
+        </div>
+
+        <!-- Template 2 -->
+        <div onclick="selectTemplate('dodge')" class="p-6 rounded-3xl bg-white border-2 border-purple-300 hover:border-purple-500 shadow-sm hover:shadow-md cursor-pointer transition-all transform hover:-translate-y-1">
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-xs font-black px-2.5 py-1 rounded-full bg-purple-100 text-purple-800">스릴 만점</span>
+          </div>
+          <div class="flex items-start gap-3.5 mb-3">
+            <div class="text-4xl p-2.5 bg-slate-50 rounded-2xl border border-slate-100 shrink-0">🏃‍♂️</div>
+            <div>
+              <h3 class="text-xl font-black text-slate-900">장애물 피하기 게임</h3>
+              <p class="text-xs font-semibold text-slate-500 mt-0.5">다가오는 장애물을 점프해서 피하는 게임</p>
+            </div>
+          </div>
+          <p class="text-sm text-slate-600 mb-4">오른쪽에서 날아오는 장애물을 화면 터치나 스페이스바로 점프해서 뛰어넘는 러너 게임입니다.</p>
+          <div class="text-right text-sm font-bold text-purple-600">선택하기 →</div>
+        </div>
+
+        <!-- Template 3 -->
+        <div onclick="selectTemplate('solar')" class="p-6 rounded-3xl bg-white border-2 border-blue-300 hover:border-blue-500 shadow-sm hover:shadow-md cursor-pointer transition-all transform hover:-translate-y-1">
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-xs font-black px-2.5 py-1 rounded-full bg-blue-100 text-blue-800">과학 탐구</span>
+          </div>
+          <div class="flex items-start gap-3.5 mb-3">
+            <div class="text-4xl p-2.5 bg-slate-50 rounded-2xl border border-slate-100 shrink-0">🪐</div>
+            <div>
+              <h3 class="text-xl font-black text-slate-900">태양계 공전 시뮬레이션</h3>
+              <p class="text-xs font-semibold text-slate-500 mt-0.5">행성들이 태양 주위를 도는 교육용 시뮬레이션</p>
+            </div>
+          </div>
+          <p class="text-sm text-slate-600 mb-4">태양을 중심으로 여러 행성들이 아름답게 공전하며, 클릭하면 행성 정보를 보여주는 교육용 웹앱입니다.</p>
+          <div class="text-right text-sm font-bold text-blue-600">선택하기 →</div>
+        </div>
+
+        <!-- Template 4 -->
+        <div onclick="selectTemplate('custom')" class="p-6 rounded-3xl bg-white border-2 border-pink-300 hover:border-pink-500 shadow-sm hover:shadow-md cursor-pointer transition-all transform hover:-translate-y-1">
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-xs font-black px-2.5 py-1 rounded-full bg-pink-100 text-pink-800">무한 상상</span>
+          </div>
+          <div class="flex items-start gap-3.5 mb-3">
+            <div class="text-4xl p-2.5 bg-slate-50 rounded-2xl border border-slate-100 shrink-0">✨</div>
+            <div>
+              <h3 class="text-xl font-black text-slate-900">자유 창작 웹앱</h3>
+              <p class="text-xs font-semibold text-slate-500 mt-0.5">내가 상상하는 새로운 웹앱을 자유롭게 만들기</p>
+            </div>
+          </div>
+          <p class="text-sm text-slate-600 mb-4">행운의 포춘쿠키, 퀴즈 앱, 나만의 카운트다운 타이머 등 머릿속 아이디어를 간이 기획서로 표현해보세요.</p>
+          <div class="text-right text-sm font-bold text-pink-600">선택하기 →</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: Detail Settings -->
+    <div id="viewStep2" class="hidden space-y-6">
+      <div class="bg-white rounded-3xl p-5 border border-purple-100 shadow-sm flex justify-between items-center">
+        <div>
+          <span class="text-xs font-bold text-purple-600">선택된 템플릿</span>
+          <h2 id="currentTemplateTitle" class="text-xl font-black text-slate-900">스네이크 게임</h2>
+        </div>
+        <button onclick="goToStep(1)" class="px-3.5 py-1.5 text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl">
+          템플릿 변경
+        </button>
+      </div>
+
+      <!-- Game Forms (Snake / Dodge) -->
+      <div id="gameFormSection" class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-6">
+        <div>
+          <label class="block text-sm font-bold text-slate-900 mb-1">
+            주인공 캐릭터 (이모지 1개) <span class="text-purple-600">*</span>
+          </label>
+          <p class="text-xs text-slate-500 mb-2">주인공을 이모지로 표현해주세요 🐶</p>
+          <div class="flex items-center gap-3">
+            <div id="playerEmojiPreview" class="w-14 h-14 rounded-2xl bg-purple-50 border-2 border-purple-300 flex items-center justify-center text-3xl">🐶</div>
+            <input type="text" id="playerEmojiInput" value="🐶" maxlength="2" oninput="updateEmoji(this, 'playerEmojiPreview')" class="w-32 px-3 py-2 text-center text-xl font-bold border rounded-xl border-slate-300">
+            <div class="flex flex-wrap gap-1">
+              <button onclick="setPlayerEmoji('🐶')" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-purple-100">🐶</button>
+              <button onclick="setPlayerEmoji('🐱')" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-purple-100">🐱</button>
+              <button onclick="setPlayerEmoji('🐰')" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-purple-100">🐰</button>
+              <button onclick="setPlayerEmoji('🚀')" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-purple-100">🚀</button>
+              <button onclick="setPlayerEmoji('🦖')" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-purple-100">🦖</button>
+              <button onclick="setPlayerEmoji('🤖')" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-purple-100">🤖</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-100">
+          <label id="targetLabel" class="block text-sm font-bold text-slate-900 mb-1">
+            장애물이나 먹이는 어떤 이모지인가요? 🍎 <span class="text-purple-600">*</span>
+          </label>
+          <div class="flex items-center gap-3">
+            <div id="targetEmojiPreview" class="w-14 h-14 rounded-2xl bg-amber-50 border-2 border-amber-300 flex items-center justify-center text-3xl">🍎</div>
+            <input type="text" id="targetEmojiInput" value="🍎" maxlength="2" oninput="updateEmoji(this, 'targetEmojiPreview')" class="w-32 px-3 py-2 text-center text-xl font-bold border rounded-xl border-slate-300">
+            <div class="flex flex-wrap gap-1">
+              <button onclick="setTargetEmoji('🍎')" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-amber-100">🍎</button>
+              <button onclick="setTargetEmoji('🧀')" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-amber-100">🧀</button>
+              <button onclick="setTargetEmoji('💎')" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-amber-100">💎</button>
+              <button onclick="setTargetEmoji('🧱')" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-amber-100">🧱</button>
+              <button onclick="setTargetEmoji('💣')" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-amber-100">💣</button>
+              <button onclick="setTargetEmoji('⭐')" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-amber-100">⭐</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-100">
+          <div class="bg-rose-50/60 p-4 rounded-2xl border border-rose-200">
+            <label class="block text-sm font-bold text-rose-900 mb-1">생명(목숨) 개수 (기본값: 3)</label>
+            <div class="flex items-center gap-2">
+              <button onclick="changeNum('livesInput', -1)" class="w-9 h-9 rounded-xl bg-white border border-rose-200 font-bold text-lg">-</button>
+              <input type="number" id="livesInput" value="3" min="1" max="10" class="flex-1 text-center font-bold text-lg py-1.5 rounded-xl border border-rose-200">
+              <button onclick="changeNum('livesInput', 1)" class="w-9 h-9 rounded-xl bg-white border border-rose-200 font-bold text-lg">+</button>
+            </div>
+          </div>
+
+          <div class="bg-amber-50/60 p-4 rounded-2xl border border-amber-200">
+            <label class="block text-sm font-bold text-amber-900 mb-1">1회 성공 시 얻는 점수 (기본값: 10)</label>
+            <div class="flex items-center gap-2">
+              <button onclick="changeNum('scoreInput', -5)" class="w-9 h-9 rounded-xl bg-white border border-amber-200 font-bold text-lg">-</button>
+              <input type="number" id="scoreInput" value="10" min="1" max="100" class="flex-1 text-center font-bold text-lg py-1.5 rounded-xl border border-amber-200">
+              <button onclick="changeNum('scoreInput', 5)" class="w-9 h-9 rounded-xl bg-white border border-amber-200 font-bold text-lg">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-100">
+          <label class="block text-sm font-bold text-slate-900 mb-1">
+            전체적인 배경 디자인/분위기
+          </label>
+          <input type="text" id="bgThemeInput" value="귀여운 파스텔톤과 반짝이는 별빛" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 font-medium text-sm">
+          <div class="flex flex-wrap gap-1.5 mt-2">
+            <button onclick="setBgTheme('우주 공간 🌌')" class="text-xs px-2.5 py-1 bg-slate-100 hover:bg-purple-100 rounded-lg">우주 공간 🌌</button>
+            <button onclick="setBgTheme('깊은 바닷속 🌊')" class="text-xs px-2.5 py-1 bg-slate-100 hover:bg-purple-100 rounded-lg">깊은 바닷속 🌊</button>
+            <button onclick="setBgTheme('귀여운 파스텔톤 🌸')" class="text-xs px-2.5 py-1 bg-slate-100 hover:bg-purple-100 rounded-lg">귀여운 파스텔톤 🌸</button>
+            <button onclick="setBgTheme('레트로 8비트 아케이드 🕹️')" class="text-xs px-2.5 py-1 bg-slate-100 hover:bg-purple-100 rounded-lg">레트로 8비트 아케이드 🕹️</button>
+            <button onclick="setBgTheme('마법의 숲 🌲')" class="text-xs px-2.5 py-1 bg-slate-100 hover:bg-purple-100 rounded-lg">마법의 숲 🌲</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Custom Form (자유 창작) -->
+      <div id="customFormSection" class="hidden bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
+        <div>
+          <label class="block text-sm font-bold text-slate-900 mb-1">만들고 싶은 웹앱 이름</label>
+          <input type="text" id="customAppName" value="행운의 과학 포춘쿠키 뽑기" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 font-bold">
+        </div>
+        <div>
+          <label class="block text-sm font-bold text-slate-900 mb-1">핵심 기능 설명</label>
+          <textarea id="customCoreFeature" rows="3" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 font-medium text-sm">버튼을 누르면 바삭하게 쿠키가 깨지는 애니메이션과 함께 매일 새로운 과학 상식과 응원 메시지가 나타나고 화려한 꽃가루(팡파레)가 터진다.</textarea>
+        </div>
+        <div>
+          <label class="block text-sm font-bold text-slate-900 mb-1">UI 구성 및 레이아웃 요소</label>
+          <input type="text" id="customUiLayout" value="상단에 알록달록한 제목, 중앙에 커다란 반응형 포춘쿠키 버튼, 하단에 결과 카드와 복사 버튼" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 font-medium text-sm">
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-bold text-slate-900 mb-1">핵심 이모지 아이콘</label>
+            <input type="text" id="customKeyEmoji" value="🥠" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 font-bold text-center text-lg">
+          </div>
+          <div>
+            <label class="block text-sm font-bold text-slate-900 mb-1">분위기/테마</label>
+            <input type="text" id="customColorTheme" value="민트와 보라색 포인트가 어우러진 축제 테마" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 font-medium text-sm">
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="flex justify-between items-center pt-2">
+        <button onclick="goToStep(1)" class="px-5 py-3 rounded-2xl bg-white border border-slate-300 font-bold text-sm">
+          ← 이전 단계
+        </button>
+        <button onclick="goToStep(3)" class="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-emerald-600 text-white font-black text-base shadow-md hover:shadow-lg">
+          프롬프트 제작하기 🚀
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Prompt Output -->
+    <div id="viewStep3" class="hidden space-y-6">
+      <div class="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl p-6 text-white shadow-md flex justify-between items-center">
+        <div>
+          <span class="text-xs font-bold text-emerald-100 uppercase">프롬프트 생성 완료</span>
+          <h2 class="text-2xl font-black">바이브 코딩 프롬프트가 완성되었습니다!</h2>
+        </div>
+        <button onclick="copyCurrentPrompt()" class="px-5 py-2.5 bg-white text-emerald-800 font-black rounded-xl shadow hover:bg-emerald-50 text-sm">
+          📋 지금 복사하기
+        </button>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-3">
+        <div class="flex justify-between items-center text-xs text-slate-500">
+          <span class="font-bold text-slate-700">생성된 프롬프트 전문 (Gemini 1.5/3.8 Flash 최적화)</span>
+          <span>클릭하여 전체 선택</span>
+        </div>
+        <textarea id="finalPromptText" rows="12" readonly onclick="this.select()" class="w-full p-5 rounded-2xl bg-slate-900 text-emerald-300 font-mono text-xs sm:text-sm leading-relaxed border border-slate-700"></textarea>
+
+        <button onclick="copyCurrentPrompt()" class="w-full py-4 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-emerald-600 text-white font-black text-lg shadow-lg hover:opacity-95">
+          📋 프롬프트 복사하기
+        </button>
+      </div>
+
+      <div class="flex justify-between items-center pt-2">
+        <button onclick="goToStep(2)" class="px-5 py-3 rounded-2xl bg-white border border-slate-300 font-bold text-sm">
+          ← 설정 수정하기
+        </button>
+        <div class="flex gap-2">
+          <button onclick="goToStep(1)" class="px-5 py-3 rounded-2xl bg-purple-50 text-purple-700 font-bold text-sm">
+            🔄 새로 만들기
+          </button>
+          <a id="padletDirectBtn" href="https://padlet.com" target="_blank" class="px-6 py-3 rounded-2xl bg-emerald-500 text-white font-bold text-sm flex items-center gap-1.5 shadow">
+            <span>📌 패들렛 바로가기</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Celebration Modal -->
+  <div id="celebrationModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+    <div class="bg-white rounded-3xl max-w-md w-full p-7 text-center relative shadow-2xl border border-purple-100">
+      <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto mb-4 animate-bounce">
+        🎉
+      </div>
+      <h3 class="text-2xl font-black text-slate-900 mb-2">
+        복사 완료! 이제 패들렛으로 이동하세요!
+      </h3>
+      <p class="text-sm text-slate-600 mb-6">
+        프롬프트가 복사되었습니다. Gemini에 붙여넣어 웹앱을 만든 뒤 패들렛에 공유해보세요!
+      </p>
+      <div class="space-y-2">
+        <a id="modalPadletBtn" href="https://padlet.com" target="_blank" onclick="closeCelebrationModal()" class="w-full py-3.5 bg-emerald-500 text-white font-extrabold rounded-2xl block">
+          📌 패들렛으로 이동하기
+        </a>
+        <a href="https://gemini.google.com" target="_blank" onclick="closeCelebrationModal()" class="w-full py-3 bg-purple-50 text-purple-700 font-bold rounded-2xl block border border-purple-200">
+          🤖 Gemini 열기 (gemini.google.com)
+        </a>
+        <button onclick="closeCelebrationModal()" class="w-full py-2 text-xs text-slate-400">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentTemplate = 'snake';
+    let padletUrl = localStorage.getItem('vibe_coding_padlet_url') || 'https://padlet.com';
+
+    function updatePadletLinks() {
+      document.getElementById('modalPadletBtn').href = padletUrl;
+      document.getElementById('padletDirectBtn').href = padletUrl;
+    }
+    updatePadletLinks();
+
+    function goToStep(step) {
+      document.getElementById('viewStep1').classList.add('hidden');
+      document.getElementById('viewStep2').classList.add('hidden');
+      document.getElementById('viewStep3').classList.add('hidden');
+
+      const prog1 = document.getElementById('progBar1');
+      const prog2 = document.getElementById('progBar2');
+      const b1 = document.getElementById('badgeStep1');
+      const b2 = document.getElementById('badgeStep2');
+      const b3 = document.getElementById('badgeStep3');
+
+      if (step === 1) {
+        document.getElementById('viewStep1').classList.remove('hidden');
+        prog1.style.width = '0%';
+        prog2.style.width = '0%';
+        b1.className = 'w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-extrabold ring-4 ring-purple-200';
+        b2.className = 'w-8 h-8 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-extrabold';
+        b3.className = 'w-8 h-8 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-extrabold';
+      } else if (step === 2) {
+        document.getElementById('viewStep2').classList.remove('hidden');
+        prog1.style.width = '100%';
+        prog2.style.width = '0%';
+        b1.className = 'w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-extrabold';
+        b2.className = 'w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-extrabold ring-4 ring-amber-200';
+        b3.className = 'w-8 h-8 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-extrabold';
+      } else if (step === 3) {
+        document.getElementById('viewStep3').classList.remove('hidden');
+        prog1.style.width = '100%';
+        prog2.style.width = '100%';
+        b1.className = 'w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-extrabold';
+        b2.className = 'w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-extrabold';
+        b3.className = 'w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-extrabold ring-4 ring-emerald-200';
+        buildPrompt();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function selectTemplate(tmpl) {
+      currentTemplate = tmpl;
+      const titleEl = document.getElementById('currentTemplateTitle');
+      const gameSec = document.getElementById('gameFormSection');
+      const customSec = document.getElementById('customFormSection');
+      const targetLbl = document.getElementById('targetLabel');
+
+      if (tmpl === 'snake') {
+        titleEl.textContent = '🐍 스네이크 게임';
+        targetLbl.innerHTML = '먹이 아이템 (이모지 1개): 뱀이 먹을 먹이는 어떤 이모지인가요? 🍎';
+        gameSec.classList.remove('hidden');
+        customSec.classList.add('hidden');
+      } else if (tmpl === 'dodge') {
+        titleEl.textContent = '🏃‍♂️ 장애물 피하기 게임';
+        targetLbl.innerHTML = '위험한 장애물 (이모지 1개): 다가오는 장애물은 어떤 이모지인가요? 🧱';
+        gameSec.classList.remove('hidden');
+        customSec.classList.add('hidden');
+      } else if (tmpl === 'solar') {
+        titleEl.textContent = '🪐 태양계 공전 시뮬레이션';
+        targetLbl.innerHTML = '목표물/행성 (이모지 1개)';
+        gameSec.classList.remove('hidden');
+        customSec.classList.add('hidden');
+      } else {
+        titleEl.textContent = '✨ 자유 창작 웹앱';
+        gameSec.classList.add('hidden');
+        customSec.classList.remove('hidden');
+      }
+      goToStep(2);
+    }
+
+    function updateEmoji(input, previewId) {
+      const chars = Array.from(input.value.trim());
+      const char = chars.length > 0 ? chars[chars.length - 1] : '❓';
+      input.value = char === '❓' ? '' : char;
+      document.getElementById(previewId).textContent = char;
+    }
+
+    function setPlayerEmoji(e) {
+      document.getElementById('playerEmojiInput').value = e;
+      document.getElementById('playerEmojiPreview').textContent = e;
+    }
+
+    function setTargetEmoji(e) {
+      document.getElementById('targetEmojiInput').value = e;
+      document.getElementById('targetEmojiPreview').textContent = e;
+    }
+
+    function setBgTheme(theme) {
+      document.getElementById('bgThemeInput').value = theme;
+    }
+
+    function changeNum(id, delta) {
+      const el = document.getElementById(id);
+      let val = parseInt(el.value) || 1;
+      val = Math.max(1, Math.min(100, val + delta));
+      el.value = val;
+    }
+
+    function buildPrompt() {
+      const templateName = currentTemplate === 'snake' ? '스네이크 게임' : currentTemplate === 'dodge' ? '장애물 피하기 게임' : currentTemplate === 'solar' ? '태양계 공전 시뮬레이션' : document.getElementById('customAppName').value;
+      let prompt = '';
+
+      if (currentTemplate === 'custom') {
+        prompt = `너는 지금부터 천재적인 프론트엔드 개발자야. 내가 요구하는 웹앱을 하나의 HTML 파일(CSS, JS 포함)로 완벽하게 만들어줘. 코드는 복사해서 바로 실행할 수 있어야 해.
+- 만들 웹앱 이름: ${document.getElementById('customAppName').value}
+- 핵심 기능 설명: ${document.getElementById('customCoreFeature').value}
+- UI 구성 및 레이아웃 요소: ${document.getElementById('customUiLayout').value}
+- 핵심 이모지 아이콘: ${document.getElementById('customKeyEmoji').value}
+- 전체적인 배경 및 색상 테마: ${document.getElementById('customColorTheme').value}
+- 추가 조건: 모바일 스마트폰 화면에서도 터치로 편하게 조작할 수 있는 반응형으로 만들고, 전체 코드를 복사해서 바로 실행할 수 있는 단일 HTML 파일로 작성해줘.`;
+      } else {
+        const playerEmoji = document.getElementById('playerEmojiInput').value || '🐶';
+        const targetEmoji = document.getElementById('targetEmojiInput').value || '🍎';
+        const lives = document.getElementById('livesInput').value || '3';
+        const score = document.getElementById('scoreInput').value || '10';
+        const bgTheme = document.getElementById('bgThemeInput').value || '귀여운 파스텔톤';
+
+        prompt = `너는 지금부터 천재적인 프론트엔드 개발자야. 내가 요구하는 웹앱을 하나의 HTML 파일(CSS, JS 포함)로 완벽하게 만들어줘. 코드는 복사해서 바로 실행할 수 있어야 해.
+- 만들 웹앱 종류: ${templateName}
+- 전체적인 배경 및 디자인 느낌: ${bgTheme}
+- 주인공 캐릭터 형태: ${playerEmoji} 이모지로 화면에 표시해.
+- 목표물/장애물 형태: ${targetEmoji} 이모지로 표시해.
+- 게임 규칙: 목숨은 ${lives}개로 시작하고, 득점 시 ${score}점씩 올라가.
+- 추가 조건: 모바일에서도 터치나 스와이프로 조작할 수 있게 반응형으로 만들고, 게임 오버 시 '다시 하기' 버튼을 만들어줘.`;
+      }
+
+      document.getElementById('finalPromptText').value = prompt;
+    }
+
+    function copyCurrentPrompt() {
+      buildPrompt();
+      const textarea = document.getElementById('finalPromptText');
+      textarea.select();
+      navigator.clipboard.writeText(textarea.value).then(() => {
+        document.getElementById('celebrationModal').classList.remove('hidden');
+      }).catch(() => {
+        document.execCommand('copy');
+        document.getElementById('celebrationModal').classList.remove('hidden');
+      });
+    }
+
+    function closeCelebrationModal() {
+      document.getElementById('celebrationModal').classList.add('hidden');
+    }
+
+    function openPadletModal() {
+      const url = prompt('축제 패들렛 게시판 URL을 입력하세요:', padletUrl);
+      if (url) {
+        padletUrl = url;
+        localStorage.setItem('vibe_coding_padlet_url', url);
+        updatePadletLinks();
+        alert('패들렛 주소가 저장되었습니다!');
+      }
+    }
+  </script>
+</body>
+</html>

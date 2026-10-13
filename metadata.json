@@ -1,0 +1,6 @@
+{
+  "name": "과학축제 바이브 코딩 프롬프트 생성기",
+  "description": "과학 축제 참가자들을 위한 초간단 웹앱 프롬프트 자동 생성기. 템플릿과 설정을 선택하면 Gemini AI가 바로 실행 가능한 웹앱 코드로 변환해주는 맞춤형 프롬프트를 만들어줍니다.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
