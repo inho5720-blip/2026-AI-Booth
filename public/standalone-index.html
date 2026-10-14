@@ -464,7 +464,7 @@
 - UI 구성 및 레이아웃 요소: ${document.getElementById('customUiLayout').value}
 - 핵심 이모지 아이콘: ${document.getElementById('customKeyEmoji').value}
 - 전체적인 배경 및 색상 테마: ${document.getElementById('customColorTheme').value}
-- 추가 조건: 모바일 스마트폰 화면에서도 터치로 편하게 조작할 수 있는 반응형으로 만들고, 전체 코드를 복사해서 바로 실행할 수 있는 단일 HTML 파일로 작성해줘.`;
+- 필수 조건: 외부 라이브러리 없는 순수 단일 HTML 파일로 작성하고, 스마트폰과 PC 모두에서 반응형으로 작동하게 해줘.`;
       } else {
         const playerEmoji = document.getElementById('playerEmojiInput').value || '🐶';
         const targetEmoji = document.getElementById('targetEmojiInput').value || '🍎';
@@ -478,8 +478,13 @@
 - 주인공 캐릭터 형태: ${playerEmoji} 이모지로 화면에 표시해.
 - 목표물/장애물 형태: ${targetEmoji} 이모지로 표시해.
 - 게임 규칙: 목숨은 ${lives}개로 시작하고, 득점 시 ${score}점씩 올라가.
-- 추가 조건: 모바일에서도 터치나 스와이프로 조작할 수 있게 반응형으로 만들고, 게임 오버 시 '다시 하기' 버튼을 만들어줘.`;
+- 추가 조건: 게임 오버 시 '다시 하기' 버튼을 제공하고 모바일 반응형으로 만들어줘.`;
       }
+
+      prompt += `\n\n📱 [노트북 · 태블릿 · 스마트폰 전 기기 완벽 호환 필수 조건]
+1. 화면 비율 & 뷰포트 맞춤: 스마트폰(세로 360~430px)과 태블릿에서도 화면 밖으로 넘치거나 잘림 없이 한 화면(100vh/100dvh, max-w-md 등)에 들어오는 반응형 레이아웃.
+2. 터치 & 키보드 듀얼 컨트롤: PC 키보드뿐만 아니라 스마트폰 화면 터치만으로도 플레이할 수 있도록 큼직한 가상 D-Pad/점프 터치 버튼(최소 48px) 제공.
+3. 모바일 UX: 연타 시 더블탭 확대 방지(touch-action: manipulation), 텍스트 드래그 방지, 첫 터치 시 Web Audio 활성화.`;
 
       document.getElementById('finalPromptText').value = prompt;
     }

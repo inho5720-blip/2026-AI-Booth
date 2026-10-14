@@ -69,13 +69,13 @@ export const ALL_TEMPLATES: TemplateDef[] = [
     badge: '인기 1위',
     emoji: '🐍',
     badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-    desc: '방향키로 움직이며 먹이를 먹을 때마다 몸이 길어집니다. 내 꼬리나 벽에 닿지 않도록 주의하세요!',
-    tags: ['클래식', '반응속도', '초중등 추천'],
+    desc: '키보드 방향키 또는 스마트폰 화면 가상 D-패드로 조작하며 먹이를 먹고 길어집니다. 모바일과 PC 모두 플레이 가능합니다!',
+    tags: ['클래식', '모바일 가상 D-패드', '스마트폰 호환'],
     fields: [
       {
         key: 'playerEmoji',
         label: '주인공 캐릭터 (이모지 1개)',
-        sublabel: '화면에서 움직일 주인공을 이모지로 표현해주세요 🐶',
+        sublabel: '화면에서 움직일 주인공 (PC 방향키 & 모바일 가상 패드 터치) 🐶',
         type: 'emoji',
         defaultValue: '🐍',
         presets: ['🐍', '🐶', '🐱', '🐰', '🚀', '🦖', '🤖']
@@ -121,7 +121,7 @@ export const ALL_TEMPLATES: TemplateDef[] = [
 - 주인공 캐릭터 형태: ${v.playerEmoji} 이모지로 화면에 표시해. 머리는 이 이모지로, 몸통은 이모지와 어울리는 부드러운 원형 세그먼트로 길어지게 표현해줘.
 - 목표물/장애물 형태: ${v.targetEmoji} 이모지로 표시해. 먹이를 먹을 때마다 귀여운 튀는 효과음이나 시각적 파티클 효과를 줘.
 - 게임 규칙: 목숨은 ${v.lives}개로 시작하고, 득점 시 ${v.scorePerSuccess}점씩 올라가.
-- 추가 조건: 키보드 방향키와 모바일 터치 및 가상 D-패드 버튼으로 쉽게 조작할 수 있게 반응형으로 만들고, 게임 오버 시 '다시 하기' 버튼을 만들어줘.`
+- 추가 조건: 키보드 방향키와 모바일 터치 가상 D-패드 버튼(화면 하단 4방향 버튼)을 반드시 동시 구현하여 스마트폰에서도 완벽히 조작 가능하게 만들고, 게임 오버 시 '다시 하기' 버튼을 만들어줘.`
   },
   {
     id: 'dodge',
@@ -132,13 +132,13 @@ export const ALL_TEMPLATES: TemplateDef[] = [
     badge: '스릴 만점',
     emoji: '🏃‍♂️',
     badgeColor: 'bg-purple-100 text-purple-800 border-purple-200',
-    desc: '화면 오른쪽에서 쏟아지는 장애물을 점프(스페이스바나 화면 터치)로 뛰어넘는 긴장감 넘치는 러닝 게임입니다.',
-    tags: ['점프 액션', '타이밍', '모바일 최적화'],
+    desc: '다가오는 장애물을 점프(스페이스바 또는 스마트폰 화면 터치 점프 버튼)로 뛰어넘는 러닝 게임입니다. 모바일과 PC 모두 지원합니다.',
+    tags: ['점프 액션', '터치 점프 버튼', '모바일 최적화'],
     fields: [
       {
         key: 'playerEmoji',
         label: '주인공 캐릭터 (이모지 1개)',
-        sublabel: '달리면서 점프할 주인공 캐릭터',
+        sublabel: '달리면서 점프할 주인공 캐릭터 (화면 터치/스페이스바로 점프)',
         type: 'emoji',
         defaultValue: '🏃‍♂️',
         presets: ['🏃‍♂️', '🐱', '🦖', '🚗', '🦸', '🛹']
@@ -184,7 +184,7 @@ export const ALL_TEMPLATES: TemplateDef[] = [
 - 주인공 캐릭터 형태: ${v.playerEmoji} 이모지로 바닥 라인 위에 위치시키고 점프할 때 자연스럽게 공중으로 솟아오르게 해줘.
 - 목표물/장애물 형태: ${v.targetEmoji} 이모지가 오른쪽에서 왼쪽으로 빠르게 다가오게 해.
 - 게임 규칙: 목숨은 ${v.lives}개로 시작하고, 득점 시 ${v.scorePerSuccess}점씩 올라가.
-- 추가 조건: 스페이스바 및 화면 터치로 2단 점프까지 가능하게 만들고, 모바일 반응형과 게임 오버 시 '다시 하기' 버튼을 만들어줘.`
+- 추가 조건: 키보드 스페이스바뿐만 아니라 화면 하단에 엄지손가락으로 쉽게 누를 수 있는 큼직한 [점프 ⬆️] 모바일 가상 터치 버튼을 반드시 제공하고, 화면 전체 탭으로도 2단 점프까지 가능하게 만들어줘. 스마트폰 세로 화면에서도 횡스크롤 트랙이 시원하게 보이도록 반응형 비율을 맞춰줘.`
   },
   {
     id: 'memory-card',
@@ -195,8 +195,8 @@ export const ALL_TEMPLATES: TemplateDef[] = [
     badge: '선생님 예시',
     emoji: '❓',
     badgeColor: 'bg-indigo-100 text-indigo-800 border-indigo-200',
-    desc: '카드를 뒤집어 짝을 맞추는 클래식 메모리 매칭 게임입니다. 집중력과 기억력 향상에 최고입니다.',
-    tags: ['기억력', '두뇌 훈련', '카드 매칭'],
+    desc: '카드를 터치하여 짝을 맞추는 기억력 게임! 스마트폰 화면 비율에 맞춰 카드가 보기 좋게 자동 배열됩니다.',
+    tags: ['기억력', '반응형 터치 카드', '두뇌 훈련'],
     fields: [
       {
         key: 'cardBackDesign',
@@ -217,10 +217,10 @@ export const ALL_TEMPLATES: TemplateDef[] = [
       {
         key: 'gridDifficulty',
         label: '게임 난이도 (카드 격자 배열)',
-        sublabel: '배열 크기가 클수록 외워야 할 카드가 많아집니다',
+        sublabel: '스마트폰과 PC 화면에 맞춰 카드 크기가 자동으로 조정되는 반응형 격자',
         type: 'chips',
-        defaultValue: '4x4 배열 (총 16장, 8쌍)',
-        presets: ['3x4 배열 (총 12장, 6쌍 - 쉬움)', '4x4 배열 (총 16장, 8쌍 - 보통)', '6x6 배열 (총 36장, 18쌍 - 도전)']
+        defaultValue: '4x4 배열 (총 16장, 8쌍 - 표준)',
+        presets: ['3x4 배열 (총 12장, 6쌍 - 모바일 추천)', '4x4 배열 (총 16장, 8쌍 - 표준)', '6x6 배열 (총 36장, 18쌍 - 고난도)']
       },
       {
         key: 'timeLimit',
@@ -235,7 +235,7 @@ export const ALL_TEMPLATES: TemplateDef[] = [
 - 만들 웹앱 종류: 카드 뒤집기 메모리 게임 (Memory Card Matching)
 - 카드 뒷면 디자인: ${v.cardBackDesign}
 - 짝을 맞출 이모지 테마: ${v.pairTheme}
-- 게임 난이도 (배열): ${v.gridDifficulty}
+- 게임 난이도 (배열): ${v.gridDifficulty} (스마트폰 세로 화면에서도 카드가 겹치거나 화면 밖으로 넘치지 않고 엄지손가락으로 탭하기 편한 크기로 반응형 CSS Grid 맞춤)
 - 시간 제한 규칙: ${v.timeLimit}
 - 시각 효과: 카드를 누르면 3D 플립 애니메이션(flip effect)으로 뒤집히고, 짝이 맞으면 통통 튀며 반짝이 효과를 줘. 틀리면 살짝 흔들리며 다시 뒤집혀.
 - 추가 조건: 상단에 시도 횟수, 경과 시간, 맞춘 짝 개수를 표시하고 성공 시 축하 꽃가루(confetti) 애니메이션과 '다시 하기' 버튼을 만들어줘.`
@@ -249,8 +249,8 @@ export const ALL_TEMPLATES: TemplateDef[] = [
     badge: '선생님 예시',
     emoji: '✌️',
     badgeColor: 'bg-amber-100 text-amber-800 border-amber-200',
-    desc: '컴퓨터와 두뇌 싸움을 벌이는 가위바위보 게임! 불, 물, 풀 등 나만의 삼각 상성 룰을 만들 수 있습니다.',
-    tags: ['심리전', '확률', '커스텀 룰'],
+    desc: '컴퓨터와 두뇌 싸움을 벌이는 가위바위보! 스마트폰 한 손 엄지손가락으로 탭하기 편한 대형 선택 버튼을 제공합니다.',
+    tags: ['심리전', '모바일 원터치', '커스텀 룰'],
     fields: [
       {
         key: 'opponentEmoji',
@@ -291,7 +291,7 @@ export const ALL_TEMPLATES: TemplateDef[] = [
 - 승리 조건 및 매치 방식: ${v.winCondition}
 - 상성 규칙: ${v.customElements} 규칙을 적용하고, 화면에 상성 안내 다이어그램을 보기 쉽게 보여줘.
 - 승패 연출 효과: ${v.screenEffects}
-- 추가 조건: 사용자가 누를 수 있는 3개의 큼직한 선택 버튼을 하단에 배치하고, 누르면 3-2-1 카운트다운 후 패를 공개하도록 스릴 넘치게 구성해줘.`
+- 추가 조건: 스마트폰 한 손으로도 탭하기 쉬운 큼직한 3개 선택 버튼(최소 높이 56px 이상)을 화면 하단에 나란히 배치하고, 누르면 3-2-1 카운트다운 후 패를 공개하도록 스릴 넘치게 구성해줘.`
   },
   {
     id: 'fall-dodge',
@@ -302,13 +302,13 @@ export const ALL_TEMPLATES: TemplateDef[] = [
     badge: '추천 게임',
     emoji: '☄️',
     badgeColor: 'bg-rose-100 text-rose-800 border-rose-200',
-    desc: '위에서 무작위로 낙하하는 장애물을 피하고 가끔 떨어지는 무적 아이템을 획득하는 스릴 넘치는 게임!',
-    tags: ['낙하물 회피', '좌우 이동', '보너스 아이템'],
+    desc: '하늘에서 낙하하는 장애물을 피하는 게임! PC 좌우 키 또는 스마트폰 화면 좌/우 터치 버튼으로 손쉽게 조작할 수 있습니다.',
+    tags: ['낙하물 회피', '좌우 터치 버튼', '모바일 최적화'],
     fields: [
       {
         key: 'playerEmoji',
         label: '플레이어 캐릭터 이모지',
-        sublabel: '바닥에서 좌우로 이동할 나의 캐릭터',
+        sublabel: '바닥에서 좌우로 이동할 나의 캐릭터 (PC 키보드 & 모바일 좌우 터치 버튼)',
         type: 'emoji',
         defaultValue: '🐱',
         presets: ['🐱', '🐶', '🚀', '🏃‍♂️', '🐧', '🦸']
@@ -340,12 +340,12 @@ export const ALL_TEMPLATES: TemplateDef[] = [
     ],
     generatePrompt: (v) => `너는 지금부터 천재적인 프론트엔드 개발자야. 내가 요구하는 웹앱을 하나의 HTML 파일(CSS, JS 포함)로 완벽하게 만들어줘. 코드는 복사해서 바로 실행할 수 있어야 해.
 - 만들 웹앱 종류: 하늘에서 떨어지는 장애물 피하기 (Falling Avoidance Game)
-- 플레이어 캐릭터: ${v.playerEmoji} (좌우 화살표 키 및 모바일 좌/우 화면 터치로 이동)
+- 플레이어 캐릭터: ${v.playerEmoji} (키보드 좌우 방향키뿐만 아니라 화면 하단에 큼직한 [◀ 좌], [우 ▶] 모바일 가상 터치 버튼을 필수로 제공해줘)
 - 떨어지는 장애물: ${v.obstacleEmoji} 이모지가 상단 랜덤 위치에서 다양한 속도로 낙하
 - 보너스 아이템 및 특수 효과: ${v.bonusItem}
 - 배경 디자인: ${v.bgVibe}
 - 규칙: 목숨 3개, 장애물에 닿으면 깜빡이며 무적 시간 1초 부여, 시간이 지날수록 낙하 속도가 점진적으로 빨라짐.
-- 추가 조건: 상단에 점수와 남은 목숨을 예쁘게 표시하고, 최고 점수(HighScore) 로컬 저장 및 '다시 하기' 버튼 구현.`
+- 추가 조건: 상단에 점수와 남은 목숨을 예쁘게 표시하고, 최고 점수(HighScore) 로컬 저장 및 스마트폰 세로 화면 비율에 최적화된 반응형 캔버스로 '다시 하기' 버튼을 구현해줘.`
   },
   {
     id: 'roulette-pinball',
@@ -356,8 +356,8 @@ export const ALL_TEMPLATES: TemplateDef[] = [
     badge: '행사 필수',
     emoji: '🎡',
     badgeColor: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-    desc: '축제 부스 경품 추첨, 오늘 뭐 먹지 결정, 벌칙 뽑기 등 어디에나 쓸 수 있는 화려한 랜덤 뽑기 웹앱입니다.',
-    tags: ['룰렛', '핀볼', '랜덤 추첨', '파티'],
+    desc: '축제 부스 경품 추첨, 오늘 뭐 먹지 결정 등 스마트폰 화면 터치 한 번으로 즐기는 인터랙티브 랜덤 뽑기 웹앱입니다.',
+    tags: ['룰렛', '핀볼', '모바일 터치 추첨', '파티'],
     fields: [
       {
         key: 'drawMethod',
@@ -397,7 +397,7 @@ export const ALL_TEMPLATES: TemplateDef[] = [
 - 항목 목록: [${v.itemChoices}] (각 항목을 알록달록한 섹터로 균등 분할하고 텍스트 표시)
 - 포인터 / 공 디자인: ${v.pointerStyle}
 - 당첨 연출: ${v.winFeedback} (당첨 항목을 큰 모달 카드로 띄우고 강조)
-- 추가 조건: '돌리기(SPIN)' 버튼을 누르면 부드럽게 감속하며 멈추는 리얼한 물리 감속 애니메이션을 구현하고, 결과 목록을 추가/삭제할 수 있는 간이 인풋창도 제공해줘.`
+- 추가 조건: 스마트폰 한 손으로도 탭하기 쉬운 초대형 [돌리기 (SPIN 🎲)] 터치 버튼을 하단에 두고, 부드럽게 감속하며 멈추는 리얼한 물리 감속 애니메이션을 구현하고 결과 목록 추가/삭제 간이 폼도 모바일 반응형으로 제공해줘.`
   },
   {
     id: 'escape-room',
@@ -408,8 +408,8 @@ export const ALL_TEMPLATES: TemplateDef[] = [
     badge: '추리 퍼즐',
     emoji: '🔐',
     badgeColor: 'bg-slate-200 text-slate-800 border-slate-300',
-    desc: '방 구석구석을 클릭하여 힌트를 수집하고 잠겨있는 도어락 암호를 풀어 탈출하는 두뇌 추리 게임입니다.',
-    tags: ['추리', '비밀번호', '단서 수집', '방탈출'],
+    desc: '화면 곳곳을 터치하여 힌트를 수집하고 스마트폰 가상 숫자 키패드로 암호를 풀어 탈출하는 두뇌 추리 게임입니다.',
+    tags: ['추리', '터치 키패드', '단서 수집', '방탈출'],
     fields: [
       {
         key: 'roomTheme',
@@ -422,7 +422,7 @@ export const ALL_TEMPLATES: TemplateDef[] = [
       {
         key: 'passwordType',
         label: '비밀번호 타입',
-        sublabel: '도어락에 입력할 암호 형식',
+        sublabel: '도어락에 입력할 암호 형식 (모바일 터치 키패드 지원)',
         type: 'chips',
         defaultValue: '숫자 4자리 암호 (예: 2 0 4 8)',
         presets: ['숫자 4자리 암호 (예: 2 0 4 8)', '영문 4글자 키워드 (예: S T A R)', '3자리 색상 조합 (빨강-초록-파랑)', '방향키 4단계 시퀀스 (↑ → ↓ ←)']
@@ -430,7 +430,7 @@ export const ALL_TEMPLATES: TemplateDef[] = [
       {
         key: 'clueEmojis',
         label: '화면에 숨겨둘 힌트 오브젝트 3가지',
-        sublabel: '클릭 시 단서가 나타날 사물들',
+        sublabel: '터치/클릭 시 단서가 나타날 사물들',
         type: 'chips',
         defaultValue: '낡은 일기장 📖, 깨진 컴퓨터 화면 💻, 벽에 걸린 천체도 🌌',
         presets: ['낡은 일기장 📖, 깨진 컴퓨터 화면 💻, 벽에 걸린 천체도 🌌', '신비한 물약병 🧪, 괘종시계 🕰️, 마법 거울 🪞', '금고 🗄️, 쪽지 📜, 열쇠구멍 🗝️']
@@ -448,10 +448,10 @@ export const ALL_TEMPLATES: TemplateDef[] = [
 - 만들 웹앱 종류: 인터랙티브 미니 방탈출 비밀번호 추리 게임
 - 스토리 테마: ${v.roomTheme}
 - 암호 체계: ${v.passwordType}
-- 숨겨진 단서 오브젝트: ${v.clueEmojis} (화면에 배치되어 클릭 시 단서 텍스트 팝업 오픈)
+- 숨겨진 단서 오브젝트: ${v.clueEmojis} (화면에 배치되어 터치/클릭 시 단서 팝업 오픈)
 - 실패 시 연출: ${v.failPenalty}
 - 승리 연출: 올바른 암호 입력 시 문이 활짝 열리는 애니메이션과 탈출 성공 기념 배지 수여.
-- 추가 조건: 가상 디지털 키패드(0~9 버튼과 입력창)를 제공하고, 어두컴컴하고 몰입감 넘치는 인터페이스를 구현해줘.`
+- 추가 조건: 스마트폰 화면에서도 손가락으로 누르기 편한 모바일 전용 가상 디지털 키패드(0~9 터치 버튼)를 하단에 제공하고, 세로 모드 화면에 깔끔하게 맞춘 몰입감 넘치는 인터페이스를 구현해줘.`
   },
   {
     id: 'clicker',
@@ -462,8 +462,8 @@ export const ALL_TEMPLATES: TemplateDef[] = [
     badge: '중독성 최고',
     emoji: '🍪',
     badgeColor: 'bg-amber-100 text-amber-800 border-amber-200',
-    desc: '화면 중앙의 이모지를 폭풍 클릭하여 점수를 모으고, 자동 클릭커 업그레이드를 구매해 무한 성장하세요!',
-    tags: ['클릭커', '업그레이드', '성장', '피젯'],
+    desc: '화면 중앙의 이모지를 폭풍 클릭 또는 모바일 화면 탭(Tap)하여 점수를 모으고 무한 성장하세요! 멀티 터치를 지원합니다.',
+    tags: ['클릭커', '모바일 탭 최적화', '성장', '피젯'],
     fields: [
       {
         key: 'mainEmoji',
@@ -475,8 +475,8 @@ export const ALL_TEMPLATES: TemplateDef[] = [
       },
       {
         key: 'clickPower',
-        label: '1회 클릭 시 올라가는 기본 점수 단위',
-        sublabel: '클릭당 포인트',
+        label: '1회 클릭/탭 시 올라가는 기본 점수 단위',
+        sublabel: '클릭 및 화면 터치당 포인트',
         type: 'number',
         defaultValue: 1,
         min: 1,
@@ -492,20 +492,20 @@ export const ALL_TEMPLATES: TemplateDef[] = [
       },
       {
         key: 'cursorParticles',
-        label: '마우스 클릭/커서 이펙트',
-        sublabel: '클릭할 때마다 튀어나오는 시각 파티클',
+        label: '마우스 클릭/모바일 터치 이펙트',
+        sublabel: '화면을 탭할 때마다 튀어나오는 시각 파티클',
         type: 'chips',
-        defaultValue: '클릭 지점에서 숫자(+1, +10)와 함께 퐁퐁 솟아오르는 별가루 파티클 ✨',
-        presets: ['클릭 지점에서 숫자(+1, +10)와 함께 퐁퐁 솟아오르는 별가루 파티클 ✨', '빵빵 터지는 하트 폭탄 ❤️', '통통 튀는 동전 튕김 효과 🪙', '화려한 번개 스파크 ⚡']
+        defaultValue: '터치/클릭 지점에서 숫자(+1, +10)와 함께 퐁퐁 솟아오르는 별가루 파티클 ✨',
+        presets: ['터치/클릭 지점에서 숫자(+1, +10)와 함께 퐁퐁 솟아오르는 별가루 파티클 ✨', '빵빵 터지는 하트 폭탄 ❤️', '통통 튀는 동전 튕김 효과 🪙', '화려한 번개 스파크 ⚡']
       }
     ],
     generatePrompt: (v) => `너는 지금부터 천재적인 프론트엔드 개발자야. 내가 요구하는 웹앱을 하나의 HTML 파일(CSS, JS 포함)로 완벽하게 만들어줘. 코드는 복사해서 바로 실행할 수 있어야 해.
 - 만들 웹앱 종류: 무한 방치형 클릭커(Clicker) 웹앱
-- 메인 클릭 타겟: ${v.mainEmoji} (화면 중앙에 아주 크게 표시, 클릭 시 쫀득하게 눌렸다 튀어오르는 스케일 애니메이션 적용)
-- 클릭 점수: 기본 +${v.clickPower}점
+- 메인 클릭 타겟: ${v.mainEmoji} (화면 중앙에 아주 크게 표시, 클릭 및 모바일 탭 시 쫀득하게 눌렸다 튀어오르는 스케일 애니메이션 적용)
+- 클릭/탭 점수: 기본 +${v.clickPower}점
 - 진화 시스템: ${v.evolutionStages}
 - 파티클 연출: ${v.cursorParticles}
-- 업그레이드 상점: 하단이나 우측에 [자동 클릭 로봇(초당 +5점)], [강화 장갑(클릭당 점수 2배)] 등의 구매 버튼을 배치해 점수로 구매 가능하게 만들어줘.`
+- 모바일 최적화: 스마트폰에서 두 손가락으로 빠르게 연타(멀티 탭)해도 브라우저 확대가 되지 않도록 touch-action manipulation 스타일을 넣고, 하단에 [자동 클릭 로봇], [강화 장갑] 등의 구매 버튼을 엄지손가락으로 탭하기 편한 카드로 배치해줘.`
   },
 
   // --- 2. 퀴즈 & 두뇌 훈련 ---
@@ -1209,16 +1209,16 @@ export const ALL_TEMPLATES: TemplateDef[] = [
     badge: '음악 & 비트',
     emoji: '🎹',
     badgeColor: 'bg-rose-100 text-rose-800 border-rose-200',
-    desc: '패드를 터치하면 신나는 전자 비트와 피아노 음계가 화려한 네온 조명과 함께 연주되는 가상 악기입니다.',
-    tags: ['디지털 악기', '런치패드', '비트메이커', '사운드'],
+    desc: '터치하면 신나는 비트가 터지는 디지털 가상 악기! 스마트폰 화면에 딱 맞춘 반응형 패드 격자와 모바일 멀티 터치를 지원합니다.',
+    tags: ['디지털 악기', '모바일 멀티 터치', '비트메이커', '사운드'],
     fields: [
       {
         key: 'padGrid',
         label: '패드 버튼의 배열 크기',
-        sublabel: '연주할 버튼 격자 수',
+        sublabel: '연주할 버튼 격자 수 (모바일 화면 자동 비율 맞춤)',
         type: 'chips',
         defaultValue: '4x4 배열 (총 16개 패드 버튼)',
-        presets: ['3x3 배열 (총 9개 패드 - 입문용)', '4x4 배열 (총 16개 패드 - 표준 런치패드)', '2x4 배열 (8음계 도레미파솔라시도)']
+        presets: ['3x3 배열 (총 9개 패드 - 모바일 추천)', '4x4 배열 (총 16개 패드 - 표준 런치패드)', '2x4 배열 (8음계 도레미파솔라시도)']
       },
       {
         key: 'soundTheme',
@@ -1247,11 +1247,11 @@ export const ALL_TEMPLATES: TemplateDef[] = [
     ],
     generatePrompt: (v) => `너는 지금부터 천재적인 프론트엔드 개발자이자 사운드 엔지니어이야. 내가 요구하는 웹앱을 하나의 HTML 파일(CSS, JS 포함)로 완벽하게 만들어줘. 코드는 복사해서 바로 실행할 수 있어야 해.
 - 만들 웹앱 종류: 인터랙티브 웹 기반 디지털 런치패드 (Virtual Launchpad)
-- 패드 배열: ${v.padGrid} (키보드 1~4, Q~R, A~F, Z~V 키 매핑 및 모바일 멀티 터치 지원)
-- 사운드 구현: ${v.soundTheme} (Web Audio API의 오실레이터 Synthesizer를 사용하여 외부 파일 없이 순수 JS 코드로 깨끗한 음계 및 드럼 타격음 합성)
+- 패드 배열: ${v.padGrid} (키보드 1~4, Q~R, A~F, Z~V 키 매핑 및 스마트폰 모바일 화면 멀티 터치 touchstart 완벽 지원)
+- 사운드 구현: ${v.soundTheme} (Web Audio API의 오실레이터 Synthesizer를 사용하여 외부 파일 없이 순수 JS 코드로 깨끗한 음계 및 드럼 타격음 합성, 모바일 첫 터치 시 AudioContext 자동 활성화)
 - 패드 조명: ${v.buttonVisual}
 - 오디오 비주얼라이저: ${v.rhythmVisualizer}
-- 추가 조건: [자동 드럼 비트 루프 재생/정지] 버튼을 두어 배경 리듬 위에 즉흥 멜로디를 얹어 연주할 수 있게 해줘.`
+- 추가 조건: 스마트폰 가로/세로 화면에 맞춘 반응형 패드 크기와 [자동 드럼 비트 루프 재생/정지] 버튼을 두어 배경 리듬 위에 즉흥 멜로디를 얹어 연주할 수 있게 해줘.`
   },
   {
     id: 'pomodoro-timer',
@@ -1262,8 +1262,8 @@ export const ALL_TEMPLATES: TemplateDef[] = [
     badge: '집중력 UP',
     emoji: '⏳',
     badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-    desc: '공부나 독서에 몰입할 때 유용한 뽀모도로 타이머! 시간이 흐를수록 자라나는 귀여운 식물을 감상하세요.',
-    tags: ['뽀모도로', '타이머', '생산성', '집중력'],
+    desc: '시간이 흐르면 식물이 자라는 집중 타이머! 책상 위 스마트폰을 거치해두고 보기에 최적화된 풀스크린 반응형 타이머입니다.',
+    tags: ['뽀모도로', '모바일 풀스크린', '타이머', '생산성'],
     fields: [
       {
         key: 'focusMinutes',
@@ -1304,7 +1304,7 @@ export const ALL_TEMPLATES: TemplateDef[] = [
 - 시계 디자인: ${v.clockShape}
 - 성장 시각화: ${v.timeEvolution} (남은 시간에 비례하여 단계별로 상태가 변화하는 감성 그래픽)
 - 완료 알림: ${v.finishAlarm} (Web Audio API로 아름다운 알림음 합성)
-- 추가 조건: [시작], [일시정지], [리셋] 버튼 및 오늘 성공한 집중 횟수(토마토 스탬프 🍅)를 모아주는 성취감 대시보드 포함.`
+- 추가 조건: 스마트폰을 거치대에 올려두고 감상하기 좋은 풀스크린 반응형 레이아웃과 [시작], [일시정지], [리셋] 대형 터치 버튼 및 오늘 성공한 집중 횟수(토마토 스탬프 🍅) 대시보드 포함.`
   },
 
   // --- 4. 자유 창작 ---
@@ -1317,8 +1317,8 @@ export const ALL_TEMPLATES: TemplateDef[] = [
     badge: '무한 상상력',
     emoji: '✨',
     badgeColor: 'bg-pink-100 text-pink-800 border-pink-200',
-    desc: '운세 뽑기, 퀴즈 앱, 나만의 계산기 등 머릿속에 떠오른 아이디어를 간이 기획서(PRD)로 구성해보세요.',
-    tags: ['창의력 UP', '간이 PRD', '맞춤형 기능', '자유 기획'],
+    desc: '내가 상상하는 기발한 웹앱! 스마트폰 세로 화면과 PC 모니터 모두에서 시원하고 편리하게 작동하도록 제작됩니다.',
+    tags: ['창의력 UP', '모바일 & PC 완벽 호환', '간이 PRD', '자유 기획'],
     fields: [
       {
         key: 'appName',
@@ -1338,9 +1338,9 @@ export const ALL_TEMPLATES: TemplateDef[] = [
       {
         key: 'uiLayout',
         label: 'UI 구성 및 레이아웃 요소',
-        sublabel: '화면에 배치할 버튼과 카드의 구조',
+        sublabel: '스마트폰 세로 화면과 PC 모니터를 고려한 버튼과 카드의 구조',
         type: 'text',
-        defaultValue: '화면 상단에 알록달록한 제목, 중앙에 커다란 반응형 포춘쿠키 버튼, 하단에 결과 카드와 복사/공유 버튼'
+        defaultValue: '화면 상단에 알록달록한 제목, 중앙에 커다란 반응형 포춘쿠키 터치 버튼, 하단에 결과 카드와 복사/공유 버튼'
       },
       {
         key: 'keyEmoji',
@@ -1367,11 +1367,25 @@ export const ALL_TEMPLATES: TemplateDef[] = [
 - 전체적인 배경 및 색상 테마: ${v.colorTheme || '밝고 경쾌한 페스티벌 컬러(노랑, 보라, 민트 포인트)'}
 - 필수 조건:
   1. 외부 복잡한 라이브러리 없이 순수 HTML, CSS, JavaScript로 작동해야 해.
-  2. 스마트폰과 PC 브라우저 모두에서 아름답고 직관적으로 작동하는 반응형 디자인이어야 해.
-  3. 모든 버튼은 누르면 반응(호버, 클릭 액션, 사운드 또는 진동 시각효과)이 확실해야 해.
+  2. 스마트폰(세로 모드)과 PC 브라우저 모두에서 아름답고 직관적으로 작동하는 반응형 디자인이어야 해.
+  3. 모든 버튼은 엄지손가락으로 터치하기 편하게 큼직해야 하며, 누르면 즉각적인 반응(호버, 클릭 액션, 사운드 또는 진동 시각효과)이 확실해야 해.
 전체 코드를 복사해서 바로 index.html로 저장해 실행할 수 있는 완성형 코드로 작성해줘.`
   }
 ];
+
+// Common cross-device mobile/tablet/laptop responsiveness guideline appended to all generated prompts
+export const CROSS_DEVICE_MOBILE_GUIDELINES = `
+📱 [노트북 · 태블릿 · 스마트폰 전 기기 완벽 호환 필수 조건 (필수 반영)]
+1. 화면 비율 & 반응형 뷰포트 맞춤 (스마트폰 세로 모드 대응):
+   - 노트북/PC뿐 아니라 스마트폰(가로 360~430px 기준 세로 화면)과 태블릿에서도 화면 밖으로 넘치거나 잘림 없이 한 화면(100vh / 100dvh)에 쏙 들어오는 반응형 레이아웃(max-w-md 등 유연한 모바일 친화적 컨테이너)으로 설계해줘.
+   - 모바일 브라우저 주소창이나 하단 네비게이션 바에 중요한 버튼이나 게임 요소가 가려지지 않도록 안전 영역(safe-area)과 padding을 충분히 확보하고, 불필요한 전체 페이지 스크롤이 생기지 않도록 overflow를 깔끔하게 제어해줘.
+2. 터치 & 키보드 듀얼 컨트롤 지원 (스마트폰 터치 플레이 필수):
+   - 노트북/PC용 키보드 조작(방향키, 스페이스바, 숫자키 등)뿐만 아니라, 스마트폰/태블릿 화면 터치만으로도 100% 원활하게 플레이할 수 있어야 해.
+   - 이동이나 점프, 액션이 필요한 경우 화면 하단에 엄지손가락으로 쉽게 누를 수 있는 큼직한 모바일 전용 가상 조작 버튼(On-Screen D-Pad / 방향키 / 액션 버튼, 최소 48px 이상 크기)을 기본으로 화면에 띄워줘.
+   - 모든 터치/클릭 버튼은 손가락으로 누르기 편한 크기와 넉넉한 터치 간격을 보장해줘.
+3. 모바일 터치 사용성 & 오디오 정책 배려:
+   - 스마트폰에서 빠르게 화면을 연타할 때 화면이 원치 않게 확대(Zoom)되지 않도록 \`touch-action: manipulation;\` 및 텍스트 드래그 방지(\`user-select: none;\`) 스타일을 적용해줘.
+   - 효과음(Web Audio API) 사용 시 모바일 브라우저의 오디오 정책(사용자의 첫 터치 인터랙션 시 AudioContext 자동 활성화)을 준수하여 무음 오류 없이 소리가 잘 나게 해줘.`;
 
 // Educational Question Card Badge for Memory Card Game (Card with question mark, strictly no gambling/hanafuda imagery)
 function QuestionCardBadge({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
@@ -1484,10 +1498,11 @@ export default function App() {
     handleFieldChange(templateId, fieldKey, val);
   };
 
-  // Generate current prompt
+  // Generate current prompt (with universal cross-device smartphone & tablet instructions)
   const currentPromptText = useMemo(() => {
     const curValues = formValues[currentTemplate.id] || {};
-    return currentTemplate.generatePrompt(curValues);
+    const basePrompt = currentTemplate.generatePrompt(curValues);
+    return `${basePrompt}\n${CROSS_DEVICE_MOBILE_GUIDELINES}`;
   }, [currentTemplate, formValues]);
 
   // Copy to clipboard
@@ -1942,6 +1957,28 @@ export default function App() {
               </button>
             </div>
 
+            {/* Cross-Device / Mobile Play Notice Card */}
+            <div className="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 rounded-2xl p-4 border border-blue-200/80 shadow-xs flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xl shrink-0 shadow-xs font-bold">
+                  📱
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-slate-900 text-xs sm:text-sm">
+                      노트북 제작 ➜ 스마트폰 · 태블릿 · PC 전기기 플레이 지원
+                    </span>
+                    <span className="hidden sm:inline-block px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 font-extrabold text-[10px]">
+                      자동 최적화
+                    </span>
+                  </div>
+                  <p className="text-slate-600 text-xs mt-0.5 leading-relaxed">
+                    노트북으로 코드를 생성하지만 스마트폰에서도 화면 밖으로 넘치지 않게 <strong>세로 뷰포트 비율(100dvh)</strong>과 <strong>모바일 전용 터치 조작 방식(가상 버튼/스와이프)</strong>이 프롬프트에 자동으로 포함됩니다.
+                  </p>
+                </div>
+              </div>
+            </div>
+
             {/* Dynamic Form Controls for this Template */}
             <div className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-200 shadow-xs space-y-6">
               <div className="border-b border-slate-100 pb-3 flex items-center justify-between">
@@ -2177,12 +2214,17 @@ export default function App() {
 
             {/* Large Textarea with Generated Prompt */}
             <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-3">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
                   <Code2 className="w-4 h-4 text-purple-600" />
                   <span className="text-xs font-bold text-slate-700">생성된 프롬프트 전문 (Gemini 1.5 / 3.8 Flash 최적화)</span>
                 </div>
-                <span className="text-xs text-slate-400">클릭하면 전체 선택됩니다</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] font-bold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md flex items-center gap-1">
+                    📱 스마트폰 터치/화면비율 가이드 포함
+                  </span>
+                  <span className="text-xs text-slate-400 hidden sm:inline">클릭하면 전체 선택됩니다</span>
+                </div>
               </div>
 
               <div className="relative">
