@@ -193,7 +193,7 @@ export const ALL_TEMPLATES: TemplateDef[] = [
     title: '카드 뒤집기 메모리 게임',
     subtitle: '두 장의 카드를 뒤집어 같은 그림의 짝을 맞추는 기억력 게임',
     badge: '선생님 예시',
-    emoji: '🎴',
+    emoji: '❓',
     badgeColor: 'bg-indigo-100 text-indigo-800 border-indigo-200',
     desc: '카드를 뒤집어 짝을 맞추는 클래식 메모리 매칭 게임입니다. 집중력과 기억력 향상에 최고입니다.',
     tags: ['기억력', '두뇌 훈련', '카드 매칭'],
@@ -203,8 +203,8 @@ export const ALL_TEMPLATES: TemplateDef[] = [
         label: '카드 뒷면 디자인',
         sublabel: '카드가 엎어져 있을 때 보일 뒷면 스타일이나 이모지',
         type: 'chips',
-        defaultValue: '신비로운 보라색 마법 문양 🔮',
-        presets: ['신비로운 보라색 마법 문양 🔮', '황금빛 별 패턴 ⭐', '레트로 체크무늬 🏁', '단색 깔끔한 민트 블루 🟦']
+        defaultValue: '호기심 가득 물음표 카드 ❓',
+        presets: ['호기심 가득 물음표 카드 ❓', '신비로운 마법 문양 🔮', '황금빛 별 패턴 ⭐', '레트로 체크무늬 🏁', '단색 깔끔한 민트 블루 🟦']
       },
       {
         key: 'pairTheme',
@@ -365,7 +365,7 @@ export const ALL_TEMPLATES: TemplateDef[] = [
         sublabel: '당첨자를 결정하는 애니메이션 방식',
         type: 'chips',
         defaultValue: '회전하는 화려한 원형 룰렛 (Spin Wheel)',
-        presets: ['회전하는 화려한 원형 룰렛 (Spin Wheel)', '위에서 장애물 못을 튕기며 떨어지는 핀볼(파칭코) 방식', '통통 튀는 캡슐 뽑기 머신 (Gachapon)']
+        presets: ['회전하는 화려한 원형 룰렛 (Spin Wheel)', '위에서 장애물 못을 튕기며 떨어지는 핀볼 드롭 방식', '통통 튀는 캡슐 뽑기 머신 (Gachapon)']
       },
       {
         key: 'itemChoices',
@@ -388,7 +388,7 @@ export const ALL_TEMPLATES: TemplateDef[] = [
         sublabel: '추첨이 완료되었을 때의 축하 분위기',
         type: 'chips',
         defaultValue: '화려한 축하 빵빠레와 화면 가득 터지는 꽃가루 폭죽 🎉',
-        presets: ['화려한 축하 빵빠레와 화면 가득 터지는 꽃가루 폭죽 🎉', '맑고 청아한 띠링~ 벨소리와 황금빛 아우라 ✨', '신나는 아케이드 잭팟 연출 🎰']
+        presets: ['화려한 축하 빵빠레와 화면 가득 터지는 꽃가루 폭죽 🎉', '맑고 청아한 띠링~ 벨소리와 황금빛 아우라 ✨', '신나는 아케이드 축하 연출 🎊']
       }
     ],
     generatePrompt: (v) => `너는 지금부터 천재적인 프론트엔드 개발자야. 내가 요구하는 웹앱을 하나의 HTML 파일(CSS, JS 포함)로 완벽하게 만들어줘. 코드는 복사해서 바로 실행할 수 있어야 해.
@@ -1373,6 +1373,34 @@ export const ALL_TEMPLATES: TemplateDef[] = [
   }
 ];
 
+// Educational Question Card Badge for Memory Card Game (Card with question mark, strictly no gambling/hanafuda imagery)
+function QuestionCardBadge({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
+  const sizeStyles =
+    size === 'lg'
+      ? 'w-11 h-14 rounded-xl text-2xl shadow-md border-2'
+      : size === 'sm'
+      ? 'w-6 h-8 rounded-md text-xs shadow-xs border'
+      : 'w-8 h-10 rounded-lg text-base shadow-xs border-2';
+
+  return (
+    <div
+      className={`relative inline-flex flex-col items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 text-white font-black border-white select-none ring-1 ring-purple-300/60 ${sizeStyles}`}
+      title="물음표 카드 (메모리 매칭)"
+    >
+      <span className="absolute top-0.5 left-1 text-[8px] font-black opacity-80 leading-none">?</span>
+      <span className="text-yellow-200 font-extrabold drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]">?</span>
+      <span className="absolute bottom-0.5 right-1 text-[8px] font-black opacity-80 leading-none rotate-180">?</span>
+    </div>
+  );
+}
+
+function renderTemplateIcon(tmpl: TemplateDef, size: 'sm' | 'md' | 'lg' = 'md') {
+  if (tmpl.id === 'memory-card') {
+    return <QuestionCardBadge size={size} />;
+  }
+  return <span>{tmpl.emoji}</span>;
+}
+
 export default function App() {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [selectedCategory, setSelectedCategory] = useState<CategoryKey>('all');
@@ -1486,6 +1514,9 @@ export default function App() {
   const handleDownloadStandaloneHTML = () => {
     const promptText = currentPromptText;
     const sanitizedTitle = currentTemplate.title;
+    const headerVisual = currentTemplate.id === 'memory-card'
+      ? `<span class="inline-flex items-center justify-center w-8 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-black text-xl shadow-sm border border-white">?</span>`
+      : currentTemplate.emoji;
 
     const standaloneHtmlContent = `<!DOCTYPE html>
 <html lang="ko">
@@ -1500,7 +1531,7 @@ export default function App() {
 <body class="bg-gradient-to-br from-purple-50 via-amber-50 to-emerald-50 min-h-screen p-4 md:p-8 text-slate-800">
   <div class="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl border border-purple-100 p-6 md:p-10">
     <div class="flex items-center gap-3 mb-4">
-      <span class="text-4xl">${currentTemplate.emoji}</span>
+      <span class="text-4xl">${headerVisual}</span>
       <div>
         <h1 class="text-2xl font-extrabold text-slate-900">과학축제 바이브 코딩 프롬프트</h1>
         <p class="text-sm text-purple-600 font-semibold">${sanitizedTitle} 완성본</p>
@@ -1819,8 +1850,8 @@ export default function App() {
 
                       {/* Emoji & Title */}
                       <div className="flex items-start gap-3 mb-2.5">
-                        <div className="text-3xl p-2 bg-slate-50 rounded-2xl border border-slate-100 shrink-0">
-                          {tmpl.emoji}
+                        <div className="text-3xl p-2 bg-slate-50 rounded-2xl border border-slate-100 shrink-0 flex items-center justify-center min-w-12 min-h-12">
+                          {renderTemplateIcon(tmpl, 'md')}
                         </div>
                         <div>
                           <h3 className="text-base sm:text-lg font-black text-slate-900 leading-tight">
@@ -1884,8 +1915,8 @@ export default function App() {
             {/* Header info */}
             <div className="bg-white rounded-3xl p-5 sm:p-6 border border-purple-100 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-3.5">
-                <div className="text-4xl p-2 bg-purple-50 rounded-2xl border border-purple-100">
-                  {currentTemplate.emoji}
+                <div className="text-4xl p-2 bg-purple-50 rounded-2xl border border-purple-100 flex items-center justify-center min-w-14 min-h-14">
+                  {renderTemplateIcon(currentTemplate, 'lg')}
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
@@ -2124,7 +2155,7 @@ export default function App() {
             <div className="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl p-5 sm:p-6 text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-3.5">
                 <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-2xl shrink-0">
-                  {currentTemplate.emoji}
+                  {renderTemplateIcon(currentTemplate, 'md')}
                 </div>
                 <div>
                   <div className="text-xs font-bold text-emerald-100 uppercase tracking-wider">
